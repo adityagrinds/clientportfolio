@@ -1,0 +1,461 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Mohammad Sohail — Mechanical Engineer</title>
+  <meta name="description" content="Mohammad Sohail — first-year Mechanical Engineering student at Manav Rachna University. Gears, sensors, prototypes and motion." />
+  <meta name="theme-color" content="#0a0b0d" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,100..900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body class="is-loading">
+
+  <!-- ============ PRELOADER ============ -->
+  <div class="preloader" aria-hidden="true">
+    <div class="pre-top">
+      <span>MS/26 — DRIVETRAIN v1.0</span>
+      <span class="pre-status">INITIALISING</span>
+    </div>
+    <div class="pre-center">
+      <svg class="svg-gear pre-gear" data-teeth="22" viewBox="-60 -60 120 120"><path /></svg>
+      <div class="pre-count"><span class="pre-num">000</span><sup>%</sup></div>
+    </div>
+    <div class="pre-bottom">
+      <div class="pre-log">
+        <p>&gt; loading gear train ............ <b>ok</b></p>
+        <p>&gt; meshing pinion 16T : 40T ...... <b>ok</b></p>
+        <p>&gt; calibrating crank-slider ...... <b>ok</b></p>
+      </div>
+      <div class="pre-bar"><i></i></div>
+    </div>
+  </div>
+
+  <!-- ============ GLOBAL LAYERS ============ -->
+  <canvas id="gl" aria-hidden="true"></canvas>
+  <div class="vignette" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="cursor" aria-hidden="true">
+    <div class="cursor-ring"><span class="cursor-label"></span></div>
+    <div class="cursor-dot"></div>
+    <div class="cursor-xy">X 0000 · Y 0000</div>
+  </div>
+
+  <!-- Anatomy callouts (projected from 3D) -->
+  <div class="labels" aria-hidden="true">
+    <div class="label" data-part="gearA"><i></i><span><em>A</em>Spur Gear · 40T</span></div>
+    <div class="label" data-part="gearB"><i></i><span><em>B</em>Pinion · 16T</span></div>
+    <div class="label" data-part="gearC"><i></i><span><em>C</em>Driven Gear · 24T</span></div>
+    <div class="label" data-part="crank"><i></i><span><em>D</em>Crank Disc</span></div>
+    <div class="label" data-part="rod"><i></i><span><em>E</em>Connecting Rod</span></div>
+    <div class="label" data-part="piston"><i></i><span><em>F</em>Piston</span></div>
+    <div class="label" data-part="liner"><i></i><span><em>G</em>Cylinder Liner</span></div>
+    <div class="label" data-part="plate"><i></i><span><em>H</em>Mounting Plate</span></div>
+  </div>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav">
+    <a href="#top" class="nav-logo" data-magnetic aria-label="Back to top">
+      <svg class="svg-gear" data-teeth="10" viewBox="-60 -60 120 120"><path /></svg>
+      <span>MS<b>/26</b></span>
+    </a>
+    <nav class="nav-links" aria-label="Primary">
+      <a href="#about" data-scramble>About</a>
+      <a href="#anatomy" data-scramble>Anatomy</a>
+      <a href="#builds" data-scramble>Builds</a>
+      <a href="#toolroom" data-scramble>Toolroom</a>
+      <a href="#contact" data-scramble>Contact</a>
+    </nav>
+    <div class="nav-status"><i></i><span>Open to collaborate</span></div>
+  </header>
+
+  <div class="hud" aria-hidden="true">
+    <div class="hud-left">
+      <span class="hud-section">00 — INTRO</span>
+    </div>
+    <div class="hud-right">
+      <span class="hud-pct">000</span>
+      <div class="hud-bar"><i></i></div>
+    </div>
+  </div>
+
+  <main id="top">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" data-hud="00 — INTRO">
+      <div class="hero-kicker">
+        <span>Portfolio ’26</span>
+        <span class="line-x"></span>
+        <span>Engineer in the making</span>
+      </div>
+
+      <h1 class="hero-title">
+        <span class="row row-1"><span class="mask"><span class="split">MOHAMMAD</span></span></span>
+        <span class="row row-2"><span class="mask"><span class="split outline">SOHAIL</span></span></span>
+      </h1>
+
+      <div class="hero-hud">
+        <div><small>RPM</small><b class="rpm">0000</b></div>
+        <div><small>Ratio</small><b>2.5 : 1</b></div>
+        <div><small>Module</small><b>m = 0.1</b></div>
+      </div>
+
+      <div class="hero-foot">
+        <p class="reveal-up"><span class="idx">(01)</span> B.Tech Mechanical Engineering <br />— First Year</p>
+        <p class="reveal-up"><span class="idx">(02)</span> Manav Rachna University <br />Faridabad, India</p>
+        <a href="#manifesto" class="scroll-cue reveal-up" data-magnetic>
+          <span>Scroll to disassemble</span>
+          <span class="cue-wheel"><i></i></span>
+        </a>
+      </div>
+    </section>
+
+    <!-- ============ MANIFESTO ============ -->
+    <section class="manifesto" id="manifesto" data-hud="01 — MANIFESTO">
+      <p class="eyebrow"><span class="dot"></span>Manifesto</p>
+      <p class="manifesto-text" data-words>
+        I learn by building. Every gear ratio, every sensor, every line of code is a question — how does motion become meaning? I take machines apart, wire them back together, and keep iterating until the machine answers back.
+      </p>
+    </section>
+
+    <!-- ============ ABOUT / ID CARD ============ -->
+    <section class="about" id="about" data-hud="02 — IDENTITY">
+      <div class="about-card-col">
+        <div class="lanyard">
+          <div class="strap"><span>MANAV RACHNA · MECHANICAL · MANAV RACHNA · MECHANICAL ·</span></div>
+          <div class="clip"></div>
+          <div class="card-stage">
+            <div class="card" data-cursor="Flip">
+              <!-- FRONT -->
+              <div class="card-face card-front">
+                <div class="card-holo"></div>
+                <div class="card-head">
+                  <svg class="svg-gear card-emblem" data-teeth="14" viewBox="-60 -60 120 120"><path /></svg>
+                  <div>
+                    <b>MANAV RACHNA UNIVERSITY</b>
+                    <small>Faculty of Engineering · Faridabad</small>
+                  </div>
+                </div>
+                <div class="card-body">
+                  <div class="card-photo">
+                    <img src="assets/profile.jpg" alt="Portrait of Mohammad Sohail" />
+                    <span class="scanline"></span>
+                  </div>
+                  <div class="card-info">
+                    <small>Name</small>
+                    <b class="card-name">Mohammad Sohail</b>
+                    <small>Programme</small>
+                    <b>B.Tech · Mechanical Engg.</b>
+                    <small>Year</small>
+                    <b>1st Year · 2026 – 30</b>
+                  </div>
+                </div>
+                <div class="card-roll">
+                  <small>Roll No.</small>
+                  <b class="roll">2K26MEU01SN06</b>
+                </div>
+                <div class="card-foot">
+                  <svg class="barcode" viewBox="0 0 220 34" preserveAspectRatio="none"></svg>
+                  <span class="chip"></span>
+                </div>
+              </div>
+              <!-- BACK -->
+              <div class="card-face card-back">
+                <div class="mag-stripe"></div>
+                <div class="back-body">
+                  <p class="back-title">Student Identity Card</p>
+                  <dl>
+                    <dt>Roll No.</dt><dd>2K26MEU01SN06</dd>
+                    <dt>Department</dt><dd>Mechanical Engineering</dd>
+                    <dt>Batch</dt><dd>2026 – 2030</dd>
+                    <dt>Campus</dt><dd>Faridabad, Haryana</dd>
+                  </dl>
+                  <p class="back-note">This card is property of the university. If found, please return to the campus security office.</p>
+                </div>
+                <svg class="svg-gear back-gear" data-teeth="30" viewBox="-60 -60 120 120"><path /></svg>
+              </div>
+            </div>
+          </div>
+        </div>
+        <p class="card-hint">Drag the cursor to swing · click to flip</p>
+      </div>
+
+      <div class="about-copy">
+        <p class="eyebrow"><span class="dot"></span>Identity</p>
+        <h2 class="h-xl" data-reveal>The engineer,<br /><em>in the making.</em></h2>
+        <p class="lead reveal-up">
+          Hi, I’m Mohammad Sohail — a first-year B.Tech Mechanical Engineering student at Manav Rachna University.
+          I’m obsessed with how things move: gears that trade speed for torque, sensors that let a machine “see”,
+          and the few lines of code that make hardware feel alive.
+        </p>
+        <p class="body reveal-up">
+          Right now I’m building my foundation in engineering mechanics, graphics and workshop practice — and pushing past
+          the syllabus with hands-on electronics prototypes on the Arduino platform.
+        </p>
+        <div class="stats">
+          <div class="stat reveal-up"><b data-count="1">0</b><span>Year of study</span></div>
+          <div class="stat reveal-up"><b data-count="3">0</b><span>Hardware builds</span></div>
+          <div class="stat reveal-up"><b data-count="2030">0</b><span>Graduating class</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ ANATOMY (pinned exploded view) ============ -->
+    <section class="anatomy" id="anatomy" data-hud="03 — ANATOMY">
+      <div class="anatomy-inner">
+        <div class="anatomy-head">
+          <p class="eyebrow"><span class="dot"></span>Anatomy of motion</p>
+          <h2 class="h-xl" data-reveal>Take it apart.<br /><em>Understand it.</em></h2>
+        </div>
+        <div class="anatomy-steps">
+          <div class="step is-active"><span>01</span><p><b>Assembled.</b> A 40-tooth spur gear drives a 16T pinion and a 24T gear that turns a crank-slider.</p></div>
+          <div class="step"><span>02</span><p><b>Exploded.</b> Every part pulled along its axis — the way an engineer reads a mechanism.</p></div>
+          <div class="step"><span>03</span><p><b>Understood.</b> Rotation becomes reciprocation. Speed trades for torque at 2.5 : 1.</p></div>
+        </div>
+        <div class="anatomy-readout">
+          <div><small>Explode</small><b class="explode-pct">000%</b></div>
+          <div><small>View</small><b>ISO · 1:1</b></div>
+          <div><small>Parts</small><b>08</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BUILDS (horizontal) ============ -->
+    <section class="builds" id="builds" data-hud="04 — BUILDS">
+      <div class="builds-track">
+
+        <div class="builds-intro panel">
+          <p class="eyebrow"><span class="dot"></span>Selected builds</p>
+          <h2 class="h-mega"><span>Builds</span><sup>(03)</sup></h2>
+          <p class="body">Hardware prototypes from my first year — from a bare breadboard to real, measurable behaviour. Each one is a small machine that taught me something big.</p>
+          <div class="builds-hint"><span>Keep scrolling</span><i class="arrow"></i></div>
+        </div>
+
+        <!-- PROJECT 01 -->
+        <article class="build panel" data-index="01">
+          <div class="cover" data-cursor="Inspect">
+            <div class="cover-grid"></div>
+            <svg class="svg-gear cover-gear g1" data-teeth="36" viewBox="-60 -60 120 120"><path /></svg>
+            <svg class="svg-gear cover-gear g2" data-teeth="14" viewBox="-60 -60 120 120"><path /></svg>
+            <div class="cover-frame">
+              <div class="cover-img toggle-img">
+                <img src="assets/ultrasonic-on.jpg" alt="Ultrasonic proximity alert with LED lit — object detected" class="img-on" />
+                <img src="assets/ultrasonic-off.jpg" alt="Ultrasonic proximity alert with LED off — path clear" class="img-off" />
+                <span class="detect-tag"><i></i><b>OBJECT DETECTED</b></span>
+              </div>
+              <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+              <span class="dim dim-x"><i></i><b>160.00</b><i></i></span>
+              <span class="dim dim-y"><i></i><b>120.00</b><i></i></span>
+            </div>
+            <div class="hazard"><span>P—01 · LIVE CIRCUIT · P—01 · LIVE CIRCUIT · P—01 · LIVE CIRCUIT ·</span></div>
+            <table class="title-block">
+              <tr><th>DWG</th><td>MS-P01</td><th>SCALE</th><td>1:1</td></tr>
+              <tr><th>SYS</th><td>Sensing</td><th>REV</th><td>A</td></tr>
+            </table>
+          </div>
+          <div class="spec">
+            <span class="spec-num">01</span>
+            <h3>Ultrasonic Proximity<br />Alert System</h3>
+            <p>An HC-SR04 ultrasonic sensor fires a 40 kHz pulse and times the echo. The Arduino converts that time into distance and lights a warning LED the moment an object crosses the threshold — the same principle behind parking sensors.</p>
+            <div class="sonar">
+              <div class="sonar-ring"><i></i><i></i><i></i></div>
+              <div class="sonar-read"><small>d = (t × 0.0343) / 2</small><b><span class="sonar-cm">012</span> cm</b></div>
+            </div>
+            <ul class="bom">
+              <li>Arduino UNO</li><li>HC-SR04</li><li>Potentiometer</li><li>LED + 220Ω</li><li>Breadboard</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- PROJECT 02 -->
+        <article class="build panel" data-index="02">
+          <div class="cover" data-cursor="Inspect">
+            <div class="cover-grid"></div>
+            <svg class="svg-gear cover-gear g1" data-teeth="28" viewBox="-60 -60 120 120"><path /></svg>
+            <svg class="svg-gear cover-gear g2" data-teeth="12" viewBox="-60 -60 120 120"><path /></svg>
+            <div class="cover-frame tall">
+              <div class="cover-img">
+                <img src="assets/led-sequencer.jpg" alt="Arduino driving four LEDs in sequence on a breadboard" />
+              </div>
+              <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+              <span class="dim dim-x"><i></i><b>120.00</b><i></i></span>
+              <span class="dim dim-y"><i></i><b>160.00</b><i></i></span>
+            </div>
+            <div class="hazard"><span>P—02 · SEQUENCE LOGIC · P—02 · SEQUENCE LOGIC · P—02 · SEQUENCE LOGIC ·</span></div>
+            <table class="title-block">
+              <tr><th>DWG</th><td>MS-P02</td><th>SCALE</th><td>1:1</td></tr>
+              <tr><th>SYS</th><td>Output</td><th>REV</th><td>B</td></tr>
+            </table>
+          </div>
+          <div class="spec">
+            <span class="spec-num">02</span>
+            <h3>Multi-Channel<br />LED Sequencer</h3>
+            <p>Four digital output pins, one loop and precise timing. The Arduino drives a chain of red and amber LEDs in programmable patterns — a first lesson in digital I/O, current limiting and how timing turns into visible motion.</p>
+            <div class="chase" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+            <ul class="bom">
+              <li>Arduino UNO</li><li>4 × LED</li><li>Resistors</li><li>Jumper wires</li><li>Breadboard</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- PROJECT 03 -->
+        <article class="build panel" data-index="03">
+          <div class="cover" data-cursor="Inspect">
+            <div class="cover-grid"></div>
+            <svg class="svg-gear cover-gear g1" data-teeth="40" viewBox="-60 -60 120 120"><path /></svg>
+            <svg class="svg-gear cover-gear g2" data-teeth="16" viewBox="-60 -60 120 120"><path /></svg>
+            <div class="cover-frame tall">
+              <div class="cover-img">
+                <img src="assets/pwm-dimmer.jpg" alt="Potentiometer wired to an Arduino dimming an LED" />
+              </div>
+              <div class="detail-callout">
+                <img src="assets/pwm-dimmer-laptop.jpg" alt="Arduino IDE sketch uploaded from a laptop for the dimmer" />
+                <span>DETAIL A</span>
+              </div>
+              <span class="reg tl"></span><span class="reg tr"></span><span class="reg bl"></span><span class="reg br"></span>
+              <span class="dim dim-x"><i></i><b>120.00</b><i></i></span>
+              <span class="dim dim-y"><i></i><b>160.00</b><i></i></span>
+            </div>
+            <div class="hazard"><span>P—03 · ANALOG → PWM · P—03 · ANALOG → PWM · P—03 · ANALOG → PWM ·</span></div>
+            <table class="title-block">
+              <tr><th>DWG</th><td>MS-P03</td><th>SCALE</th><td>1:1</td></tr>
+              <tr><th>SYS</th><td>Control</td><th>REV</th><td>A</td></tr>
+            </table>
+          </div>
+          <div class="spec">
+            <span class="spec-num">03</span>
+            <h3>Analog PWM<br />LED Dimmer</h3>
+            <p>Turn the knob, change the light. A potentiometer feeds a 10-bit analog reading (0–1023) which is mapped to an 8-bit PWM duty cycle (0–255) — real-time closed-loop control between a human input and a physical output.</p>
+            <div class="dimmer">
+              <label for="pot">Try it — turn the pot</label>
+              <input type="range" id="pot" min="0" max="1023" value="620" />
+              <div class="dimmer-read">
+                <div><small>analogRead</small><b class="d-raw">620</b></div>
+                <div><small>PWM</small><b class="d-pwm">154</b></div>
+                <div class="d-led"><i></i></div>
+              </div>
+            </div>
+            <pre class="code"><code><span class="k">int</span> val = analogRead(A0);
+<span class="k">int</span> brightness = map(val, 0, 1023, 0, 255);
+analogWrite(ledPin, brightness);</code></pre>
+          </div>
+        </article>
+
+        <div class="builds-outro panel">
+          <p class="h-xl">More builds<br /><em>on the bench.</em></p>
+          <p class="body">CAD models, mechanisms and robotics — loading next semester.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TOOLROOM ============ -->
+    <section class="toolroom" id="toolroom" data-hud="05 — TOOLROOM">
+      <div class="section-head">
+        <p class="eyebrow"><span class="dot"></span>Toolroom</p>
+        <h2 class="h-xl" data-reveal>What I’m<br /><em>machining now.</em></h2>
+      </div>
+      <div class="gauges">
+        <div class="gauge" data-value="0.68" data-state="Building">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>Arduino &amp; Embedded C</h4><span class="state">Building</span>
+        </div>
+        <div class="gauge" data-value="0.62" data-state="Building">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>Sensors &amp; Circuits</h4><span class="state">Building</span>
+        </div>
+        <div class="gauge" data-value="0.5" data-state="Coursework">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>Engineering Graphics</h4><span class="state">Coursework</span>
+        </div>
+        <div class="gauge" data-value="0.5" data-state="Coursework">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>Engineering Mechanics</h4><span class="state">Coursework</span>
+        </div>
+        <div class="gauge" data-value="0.46" data-state="Coursework">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>Workshop Practice</h4><span class="state">Coursework</span>
+        </div>
+        <div class="gauge" data-value="0.3" data-state="Learning">
+          <svg viewBox="0 0 200 200"><g class="ticks"></g><path class="arc-bg" /><path class="arc-fg" /><g class="needle"><line x1="100" y1="100" x2="100" y2="34" /><circle cx="100" cy="100" r="7" /></g></svg>
+          <h4>CAD Modelling</h4><span class="state">Learning</span>
+        </div>
+      </div>
+      <div class="ticker" aria-hidden="true">
+        <div class="ticker-track">
+          <span>Arduino UNO</span><span>HC-SR04</span><span>PWM</span><span>analogRead()</span><span>Breadboarding</span><span>Ohm’s Law</span><span>Free-body diagrams</span><span>Orthographic projection</span><span>Gear trains</span><span>Crank-slider</span><span>Digital I/O</span><span>Prototyping</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ TRAJECTORY ============ -->
+    <section class="trajectory" data-hud="06 — TRAJECTORY">
+      <div class="section-head">
+        <p class="eyebrow"><span class="dot"></span>Trajectory</p>
+        <h2 class="h-xl" data-reveal>The path<br /><em>so far.</em></h2>
+      </div>
+      <div class="timeline">
+        <svg class="timeline-line" preserveAspectRatio="none" viewBox="0 0 2 100"><line x1="1" y1="0" x2="1" y2="100" /></svg>
+        <div class="t-item"><span class="t-date">2026</span><div><h4>Joined Manav Rachna University</h4><p>Started B.Tech in Mechanical Engineering — Roll No. 2K26MEU01SN06.</p></div></div>
+        <div class="t-item"><span class="t-date">2026</span><div><h4>First hardware builds</h4><p>Ultrasonic sensing, LED sequencing and PWM control on Arduino UNO.</p></div></div>
+        <div class="t-item"><span class="t-date">Now</span><div><h4>Building the fundamentals</h4><p>Engineering mechanics, engineering graphics and workshop practice.</p></div></div>
+        <div class="t-item is-next"><span class="t-date">Next</span><div><h4>CAD, mechanisms &amp; robotics</h4><p>Designing parts in CAD and taking builds from breadboard to real mechanisms.</p></div></div>
+      </div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <section class="marquee" aria-hidden="true">
+      <div class="marquee-row"><div class="marquee-inner"><span>Build</span><b>✦</b><span class="o">Break</span><b>✦</b><span>Learn</span><b>✦</b><span class="o">Rebuild</span><b>✦</b><span>Build</span><b>✦</b><span class="o">Break</span><b>✦</b><span>Learn</span><b>✦</b><span class="o">Rebuild</span><b>✦</b></div></div>
+      <div class="marquee-row rev"><div class="marquee-inner"><span class="o">Torque</span><b>✦</b><span>Motion</span><b>✦</b><span class="o">Precision</span><b>✦</b><span>Mechanism</span><b>✦</b><span class="o">Torque</span><b>✦</b><span>Motion</span><b>✦</b><span class="o">Precision</span><b>✦</b><span>Mechanism</span><b>✦</b></div></div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact" id="contact" data-hud="07 — CONTACT">
+      <p class="eyebrow"><span class="dot"></span>Contact</p>
+      <h2 class="contact-title">
+        <span class="mask"><span class="c-line">Let’s build</span></span>
+        <span class="mask"><span class="c-line"><em>something</em></span></span>
+        <span class="mask"><span class="c-line">that moves.</span></span>
+      </h2>
+      <div class="contact-row">
+        <!-- TODO: replace with Sohail's real email -->
+        <a class="big-btn" href="mailto:sohail@example.com" data-magnetic data-cursor="Write">
+          <svg class="ring-text" viewBox="0 0 200 200"><defs><path id="circ" d="M100,100 m-78,0 a78,78 0 1,1 156,0 a78,78 0 1,1 -156,0" /></defs><text><textPath href="#circ">SAY HELLO · SAY HELLO · SAY HELLO · SAY HELLO · </textPath></text></svg>
+          <span class="big-btn-core">↗</span>
+        </a>
+        <div class="contact-links">
+          <!-- TODO: replace these placeholders with real profile links -->
+          <a href="mailto:sohail@example.com" data-scramble>sohail@example.com</a>
+          <a href="#" data-scramble>LinkedIn</a>
+          <a href="#" data-scramble>GitHub</a>
+          <a href="#" data-scramble>Instagram</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <span>© 2026 Mohammad Sohail</span>
+    <span>Faridabad · <b class="clock">00:00:00</b> IST</span>
+    <span>28.40° N · 77.31° E</span>
+    <a href="#top" data-scramble>Back to top ↑</a>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <script src="https://unpkg.com/lenis@1.1.13/dist/lenis.min.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
